@@ -1,5 +1,4 @@
 const { LogEventLevel } = require(structured-log)
-const { Client, Collection } = require('documentdb-typescript')
 
 class CosmosDocumentDbSinkOptions {
     constructor(url, authorizationKey, databaseName, collectionName, restrictedToMinimumLevel = LogEventLevel.information){
@@ -20,27 +19,4 @@ class CosmosDocumentDbSinkOptions {
     }
 }
 
-class CosmosDocumentDbSink {
-    constructor(options){
-        if(!options)
-            throw new Error(`'options' parameter is required`)
-        
-        this.options = options
-
-        this.client = new Client(this.options.url, this.options.authorizationKey)
-        this.collection = new Collection(this.options.collectionName, this.options.databaseName, this.client)
-    }   
-
-    async emit(events) {
-        if(this.client.isOpen === false)
-            await this.client.openAsync()
-
-        await this.collection.openAsync()
-
-        events.forEach(event => {
-            this.collection.storeDocumentAsync(event)
-        });
-    }
-}
-
-module.exports = { CosmosDocumentDbSinkOptions, CosmosDocumentDbSink }
+module.exports = CosmosDocumentDbSinkOptions
