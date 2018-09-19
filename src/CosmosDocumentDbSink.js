@@ -1,16 +1,14 @@
-import { LogEventLevel, LogEvent } from 'structured-log/src/logEvent'
-import { Sink } from 'structured-log/src/sink'
-import { Client, Database, Collection } from 'documentdb-typescript'
+const { LogEventLevel } = require(structured-log)
+const { Client, Collection } = require('documentdb-typescript')
 
+class CosmosDocumentDbSinkOptions {
+    constructor(
+    url,
+    authorizationKey,
+    databaseName,
+    collectionName,
+    restrictedToMinimumLevel = LogEventLevel.information){
 
-export class CosmosDocumentDbSinkOptions {
-    url: string
-    authorizationKey: string
-    databaseName: string
-    collectionName: string
-    restrictedToMinimumLevel: LogEventLevel
-
-    constructor(url, authorizationKey, databaseName, collectionName, restrictedToMinimumLevel = LogEventLevel.debug){
         if(!url)
             throw new Error(`'url' parameter is required`)
         if(!authorizationKey)
@@ -28,11 +26,7 @@ export class CosmosDocumentDbSinkOptions {
     }
 }
 
-export class CosmosDocumentDbSink implements Sink {
-    private options : CosmosDocumentDbSinkOptions
-    private collection : Collection
-    private client: Client;
-
+class CosmosDocumentDbSink {
     constructor(options){
         if(!options)
             throw new Error(`'options' parameter is required`)
@@ -41,9 +35,9 @@ export class CosmosDocumentDbSink implements Sink {
 
         this.client = new Client(this.options.url, this.options.authorizationKey)
         this.collection = new Collection(this.options.collectionName, this.options.databaseName, this.client)
-    }
+    }   
 
-    async emit(events: LogEvent[]) {
+    async emit(events) {
         if(this.client.isOpen === false)
             await this.client.openAsync()
 
@@ -52,10 +46,7 @@ export class CosmosDocumentDbSink implements Sink {
         events.forEach(event => {
             this.collection.storeDocumentAsync(event)
         });
-
-    }    
-    
-    flush(): Promise<any> {
-        return Promise.resolve()
     }
 }
+
+module.exports = { CosmosDocumentDbSinkOptions, CosmosDocumentDbSink }
