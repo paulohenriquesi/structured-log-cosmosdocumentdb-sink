@@ -1,0 +1,16 @@
+{
+    "name": "structured-log-cosmosdocumentdb-sink",
+    "version": "1.0.0",
+    "description": "Structured log sink to Azure CosmosDB Documents",
+    "main": "src/CosmosDocumentDbSink.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/paulohenriquesi/structured-log-cosmosdocumentdb-sink"
+    },
+    "author": "Paulo Fernandes",
+    "license": "MIT",
+    "dependencies": {
+        "documentdb-typescript": "^1.0.7",
+        "structured-log": "^0.2.0"
+    }
+}
