@@ -1,3 +1,6 @@
+'use strict'
+
+const uuid = require('uuid')
 const { Client, Collection } = require('documentdb-typescript')
 
 class CosmosDocumentDbSink {
@@ -18,7 +21,7 @@ class CosmosDocumentDbSink {
         await this.collection.openAsync()
 
         events.forEach(event => {
-            this.collection.storeDocumentAsync(event)
+            this.collection.storeDocumentAsync({id: uuid.v4(), event})
         });
     }
 }

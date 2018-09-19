@@ -1,6 +1,6 @@
 {
     "name": "structured-log-cosmosdocumentdb-sink",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Structured log sink to Azure CosmosDB Documents",
     "main": "src/index.js",
     "repository": {
@@ -14,6 +14,7 @@
     "license": "MIT",
     "dependencies": {
         "documentdb-typescript": "^1.0.7",
-        "structured-log": "^0.2.0"
+        "structured-log": "^0.2.0",
+        "uuid": "^3.3.2"
     }
 }
