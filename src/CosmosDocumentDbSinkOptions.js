@@ -1,4 +1,4 @@
-const { LogEventLevel } = require(structured-log)
+const { LogEventLevel } = require('structured-log')
 
 class CosmosDocumentDbSinkOptions {
     constructor(url, authorizationKey, databaseName, collectionName, restrictedToMinimumLevel = LogEventLevel.information){
